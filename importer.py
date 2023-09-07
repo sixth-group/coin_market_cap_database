@@ -24,6 +24,9 @@ class Importer:
             i.pop("tags")
             currency = Currency(**i)
             Session.add(currency)
+            currency_date = CurrencyDate()
+            currency_date.currency_id = currency.id
+            Session.add(currency_date)
             Session.commit()
 
     # def tag_importer(self):
@@ -43,6 +46,9 @@ class Importer:
         for i in self.full_data["timeOpen"].to_dict(orient="records"):
             date = Date(**i)
             Session.add(date)
+            currency_date = CurrencyDate()
+            currency_date.date_id = date.id
+            Session.add(currency_date)
             Session.commit()
 
     def currency_date_importer(self):
@@ -82,4 +88,11 @@ class Importer:
 
 
 importer = Importer()
+
+importer.curency_importer()
+importer.date_importer()
+importer.currency_date_importer()
 importer.market_importer()
+importer.trade_importer()
+importer.time_importer()
+importer.price_importer()
