@@ -22,15 +22,16 @@ class Currency(base):
     __tablename__ = "currency"
 
     id = Column(Integer, unique=True, primary_key=True, autoincrement=True)
-    name = Column(String)
-    symbol = Column(String, unique=True)
-    main_link = Column(String)
-    historical_link = Column(String)
-    github_link = Column(String)
+    Name = Column(String)
+    Rank = Column(Integer)
+    Symbol = Column(String, unique=True)
+    MainLink = Column(String)
+    HistoricalLink = Column(String)
+    github_url = Column(String)
 
     # Relationships
     currency_date = relationship("CurrencyDate")
-    tag = relationship("Tag")
+    tags = relationship("Tag")
 
 
 class Date(base):
@@ -38,7 +39,6 @@ class Date(base):
 
     id = Column(Integer, unique=True, primary_key=True, autoincrement=True)
     date = Column(DateTime)
-    timestamp = Column(DateTime)
 
     # Relationships
     currency_date = relationship("CurrencyDate")
@@ -48,7 +48,7 @@ class Market(base):
     __tablename__ = "market"
 
     id = Column(Integer, unique=True, primary_key=True, autoincrement=True)
-    market_cap = Column(Integer)
+    marketCap = Column(Integer)
     currency_date = Column(Integer, ForeignKey("currency_date.id"))
 
 
@@ -64,10 +64,10 @@ class Price(base):
     __tablename__ = "price"
 
     id = Column(Integer, unique=True, primary_key=True, autoincrement=True)
-    open_price = Column(Integer)
-    close_price = Column(Integer)
-    high_price = Column(Integer)
-    low_price = Column(Integer)
+    open = Column(Integer)
+    close = Column(Integer)
+    high = Column(Integer)
+    low = Column(Integer)
     currency_date = Column(Integer, ForeignKey("currency_date.id"))
 
 
@@ -75,10 +75,10 @@ class Time(base):
     __tablename__ = "time"
 
     id = Column(Integer, unique=True, primary_key=True, autoincrement=True)
-    open_time = Column(Integer)
-    close_time = Column(Integer)
-    high_time = Column(Integer)
-    low_time = Column(Integer)
+    timeOpen = Column(Integer)
+    timeClose = Column(Integer)
+    timeHigh = Column(Integer)
+    timeLow = Column(Integer)
     currency_date = Column(Integer, ForeignKey("currency_date.id"))
 
 
