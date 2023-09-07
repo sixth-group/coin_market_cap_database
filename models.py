@@ -50,7 +50,9 @@ class CurrenciesHistory(base):
     volume = Column(BigInteger)
     marketCap = Column(BigInteger)
     timestamp = Column(TIMESTAMP)
-    currency = Column(Integer, ForeignKey("currency.id"))
+    currency_id = Column(Integer, ForeignKey("currency.id"))
+
+    currency = relationship('Currency')
 
 
 class Tag(base):
