@@ -7,7 +7,9 @@ from sqlalchemy import (
     Integer,
     ForeignKey,
     TIMESTAMP,
-    DateTime
+    DateTime,
+    BigInteger,
+    Float,
 )
 
 DB_STRING = "postgresql://postgres:1234@localhost:5432/coinmarketcap_db"
@@ -30,7 +32,6 @@ class Currency(base):
     github_url = Column(String)
 
     # Relationships
-    currency_date = relationship("CurrencyDate")
     tags = relationship("Tag")
 
 
@@ -42,12 +43,12 @@ class CurrenciesHistory(base):
     timeClose = Column(DateTime)
     timeHigh = Column(DateTime)
     timeLow = Column(DateTime)
-    open = Column(Integer)
-    high = Column(Integer)
-    low = Column(Integer)
-    close = Column(Integer)
-    volume = Column(Integer)
-    marketCap = Column(Integer)
+    open = Column(Float)
+    high = Column(Float)
+    low = Column(Float)
+    close = Column(Float)
+    volume = Column(BigInteger)
+    marketCap = Column(BigInteger)
     timestamp = Column(TIMESTAMP)
     currency = Column(Integer, ForeignKey("currency.id"))
 
