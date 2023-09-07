@@ -25,7 +25,7 @@ class Importer:
         for currency_history in self.currencies_history.to_dict(orient='records'):
             currency_name = currency_history.pop('Name')
             currency_id = currency_name_id_mapping.get(currency_name)
-            currency_history['currency'] = currency_id
+            currency_history['currency_id'] = currency_id
             currency_history = CurrenciesHistory(**currency_history)
             Session.add(currency_history)
             Session.commit()
