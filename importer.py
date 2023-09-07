@@ -9,6 +9,7 @@ from models import (
     Time,
     Price,
 )
+
 import pandas as pd
 
 Session = Session()
