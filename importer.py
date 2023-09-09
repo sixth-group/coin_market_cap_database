@@ -1,6 +1,7 @@
+import ast
 import pandas as pd
 
-from models import Currency, CurrenciesHistory, Session  # , Tag
+from models import Currency, CurrenciesHistory, Session, Tag
 
 
 Session = Session()
@@ -13,10 +14,22 @@ class Importer:
 
     def currency_importer(self):
         for i in self.currency_df.to_dict(orient="records"):
-            i.pop("tags")
+            tags = ast.literal_eval(i.pop("tags"))
+
             currency = Currency(**i)
             Session.add(currency)
             Session.commit()
+
+            for tag in tags:
+                existing_tag = Session.query(Tag).filter_by(tag=tag["tag"]).first()
+                if existing_tag:
+                    tag = existing_tag
+                else:
+                    tag = Tag(**tag)
+                    Session.add(tag)
+                    Session.commit()
+
+                currency.tags.append(tag)
 
     def currencies_history_importer(self):
         currency_rows = Session.query(Currency).all()

@@ -1,5 +1,4 @@
-from sqlalchemy.orm import sessionmaker, relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from sqlalchemy import (
     create_engine,
     Column,
@@ -10,6 +9,7 @@ from sqlalchemy import (
     DateTime,
     BigInteger,
     Float,
+    Table
 )
 
 DB_STRING = "postgresql://postgres:1234@localhost:5432/coinmarketcap_db"
@@ -31,8 +31,7 @@ class Currency(base):
     HistoricalLink = Column(String)
     github_url = Column(String)
 
-    # Relationships
-    tags = relationship("Tag")
+    tags = relationship('Tag', secondary='currency_tags')
 
 
 class CurrenciesHistory(base):
@@ -59,9 +58,16 @@ class Tag(base):
     __tablename__ = "tag"
 
     id = Column(Integer, unique=True, primary_key=True, autoincrement=True)
-    tag = Column(String)
-    currency = Column(Integer, ForeignKey("currency.id"))
+    tag = Column(String, unique=True)
+    url = Column(String)
 
+
+currency_tags = Table(
+    'currency_tags',
+    base.metadata,
+    Column('currency_id', Integer, ForeignKey('currency.id')),
+    Column('tag_id', Integer, ForeignKey('tag.id'))
+)
 
 if __name__ == "__main__":
     base.metadata.create_all(db)
